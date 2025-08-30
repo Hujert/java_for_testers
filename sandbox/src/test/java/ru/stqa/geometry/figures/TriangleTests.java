@@ -7,12 +7,14 @@ public class TriangleTests {
 
     @Test
     void canCalculateArea() {
-        double resalt = Triangle.area(3.0, 4.0, 5.0);
+        var s = new Triangle(3.0, 4.0, 5.0);
+        double resalt = s.area();
         Assertions.assertEquals(6, resalt);
     }
 
     @Test
     void canCalculateSemiperimeter() {
-        Assertions.assertEquals(6.0, Triangle.semiperimeter(3.0, 4.0, 5.0));
+        var p = new Triangle(3.0, 4.0, 5.0);
+        Assertions.assertEquals(6.0, new Triangle(3.0, 4.0, 5.0).semiperimeter());
     }
 }
