@@ -8,15 +8,15 @@ public class Triangle {
     private double sideC;
 
     public Triangle(double sideA, double sideB, double sideC) {
-        if (!areSidesPositive(sideA, sideB, sideC)) {
-            throw new IllegalArgumentException("Одна из сторон имеет отрицательное значение");
-        }
-        if (!satisfiesTriangleInequality(sideA, sideB, sideC)) {
-            throw new IllegalArgumentException("Стороны не образуют треугольник");
-        }
         this.sideA = sideA;
         this.sideB = sideB;
         this.sideC = sideC;
+        if (!areSidesPositive()) {
+            throw new IllegalArgumentException("Одна из сторон имеет отрицательное значение");
+        }
+        if (!satisfiesTriangleInequality()) {
+            throw new IllegalArgumentException("Стороны не образуют треугольник");
+        }
     }
 
     public static void printTriangleAria(Triangle t) {
@@ -50,13 +50,13 @@ public class Triangle {
         return Objects.hash(sideA, sideB, sideC);
     }
 
-    public static boolean satisfiesTriangleInequality(double a, double b, double c) {
-        return a + b > c &&
-               a + c > b &&
-               b + c > a;
+    public boolean satisfiesTriangleInequality() {
+        return this.sideA + this.sideB > this.sideC &&
+                this.sideA + this.sideC > this.sideB &&
+                this.sideB + this.sideC > this.sideA;
     }
 
-    public static boolean areSidesPositive(double a, double b, double c) {
-        return a > 0 && b > 0 && c > 0;
+    public boolean areSidesPositive() {
+        return this.sideA > 0 && this.sideB > 0 && this.sideC > 0;
     }
 }
