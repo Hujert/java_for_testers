@@ -11,6 +11,7 @@ public class ApplicationManager {
     protected static WebDriver driver;
     private LoginHelper session;
     private GroupHelper groups;
+    private ContactHelper contact;
 
     public boolean isElementPresent(By locator) {
         try {
@@ -26,6 +27,13 @@ public class ApplicationManager {
             session = new LoginHelper(this);
         }
         return session;
+    }
+
+    public ContactHelper contacts() {
+        if (contact == null) {
+            contact = new ContactHelper(this);
+        }
+        return contact;
     }
 
     public GroupHelper groups() {
@@ -49,6 +57,13 @@ public class ApplicationManager {
             driver.manage().window().setSize(new Dimension(1389, 693));
             session().login("admin", "secret");
         }
+    }
+
+    public ContactHelper contact() {
+        if (contact == null) {
+            contact = new ContactHelper(this);
+        }
+        return contact;
     }
 
 }
