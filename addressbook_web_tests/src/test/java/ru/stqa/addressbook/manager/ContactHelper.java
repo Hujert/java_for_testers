@@ -108,4 +108,9 @@ public class ContactHelper extends HelperBase {
     private void selectAllContact() {
         click(By.xpath("//input[@onclick='MassSelection()']"));
     }
+
+    public int getCount() {
+        openHomePage();
+        return manager.driver.findElements(By.xpath("//input[@name='selected[]']")).size();
+    }
 }

@@ -18,7 +18,14 @@ public class GroupHelper extends HelperBase {
     public void removeGroup() {
         openGroupsPage();
         selectGroup();
-        removeSelectedGroup();
+        removeSelectedGroups();
+        returnToGroupsPage();
+    }
+
+    public void removeAllGroups() {
+        openGroupsPage();
+        selectAllGroups();
+        removeSelectedGroups();
         returnToGroupsPage();
     }
 
@@ -39,13 +46,8 @@ public class GroupHelper extends HelperBase {
         returnToGroupsPage();
     }
 
-    private void removeSelectedGroup() {
+    private void removeSelectedGroups() {
         click(By.xpath("//input[@name='delete']"));
-    }
-
-    public boolean isGroupPresent() {
-        openGroupsPage();
-        return manager.isElementPresent(By.xpath("//input[@name='selected[]']"));
     }
 
     private void submitGroupCreation() {
@@ -80,4 +82,15 @@ public class GroupHelper extends HelperBase {
         click(By.xpath("//input[@name='selected[]']"));
     }
 
+    public int getCount() {
+        openGroupsPage();
+        return manager.driver.findElements(By.xpath("//input[@name='selected[]']")).size();
+    }
+
+    private void selectAllGroups() {
+        var checkboxes = manager.driver.findElements(By.xpath("//input[@name='selected[]']"));
+        for (var checkbox : checkboxes) {
+            checkbox.click();
+        }
+    }
 }
