@@ -14,20 +14,20 @@ public class ContactCreationTests extends TestBase {
     public static List<ContactData> contactProvider() {
         var result = new ArrayList<ContactData>();
         for (var firstName : List.of("", "contact firstName")) {
-            for (var middleName : List.of("", "contact middleName")) {
+            for (var middleName : List.of("")) {
                 for (var lastName : List.of("", "contact lastName")) {
-                    for (var nickName : List.of("", "contact nickName")) {
-                        for (var title : List.of("", "contact title")) {
-                            for (var company : List.of("", "contact company")) {
+                    for (var nickName : List.of("")) {
+                        for (var title : List.of("")) {
+                            for (var company : List.of("")) {
                                 for (var address : List.of("", "contact address")) {
-                                    for (var home : List.of("", "contact home")) {
+                                    for (var home : List.of("")) {
                                         for (var mobile : List.of("", "contact mobile")) {
-                                            for (var work : List.of("", "contact work")) {
-                                                for (var fax : List.of("", "contact fax")) {
+                                            for (var work : List.of("")) {
+                                                for (var fax : List.of("")) {
                                                     for (var email : List.of("", "contact email")) {
-                                                        for (var email2 : List.of("", "contact email2")) {
-                                                            for (var email3 : List.of("", "contact email3")) {
-                                                                for (var homepage : List.of("", "contact homepage")) {
+                                                        for (var email2 : List.of("")) {
+                                                            for (var email3 : List.of("")) {
+                                                                for (var homepage : List.of("")) {
                                                                     result.add(new ContactData(firstName, middleName, lastName, nickName, title,
                                                                             company, address, home, mobile, work, fax, email, email2, email3, homepage));
                                                                 }
