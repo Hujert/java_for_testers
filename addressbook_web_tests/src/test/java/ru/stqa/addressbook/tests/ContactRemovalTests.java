@@ -2,7 +2,6 @@ package ru.stqa.addressbook.tests;
 
 import org.junit.jupiter.api.Test;
 import ru.stqa.addressbook.model.ContactData;
-import ru.stqa.addressbook.model.GroupData;
 
 public class ContactRemovalTests extends TestBase{
 
