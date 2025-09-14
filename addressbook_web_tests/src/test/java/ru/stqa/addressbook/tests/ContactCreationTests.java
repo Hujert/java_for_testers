@@ -17,8 +17,12 @@ public class ContactCreationTests extends TestBase {
                 for (var address : List.of("", "contact address")) {
                     for (var mobile : List.of("", "contact mobile")) {
                         for (var email : List.of("", "contact email")) {
-                            result.add(new ContactData(firstName, "", lastName, "", "",
-                                    "", address, "", mobile, "", "", email, "", "", ""));
+                            result.add(new ContactData()
+                                    .withFirstName(firstName)
+                                    .withFirstName(lastName)
+                                    .withAddress(address)
+                                    .withMobile(mobile)
+                                    .withEmail(email));
                         }
                     }
                 }
