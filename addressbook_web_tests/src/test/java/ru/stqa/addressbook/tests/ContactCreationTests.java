@@ -6,6 +6,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import ru.stqa.addressbook.model.ContactData;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ContactCreationTests extends TestBase {
@@ -19,7 +20,7 @@ public class ContactCreationTests extends TestBase {
                         for (var email : List.of("", "contact email")) {
                             result.add(new ContactData()
                                     .withFirstName(firstName)
-                                    .withFirstName(lastName)
+                                    .withLastName(lastName)
                                     .withAddress(address)
                                     .withMobile(mobile)
                                     .withEmail(email));
@@ -32,7 +33,7 @@ public class ContactCreationTests extends TestBase {
             result.add(new ContactData(randomString(i + 10), randomString(i + 10), randomString(i + 10),
                     randomString(i + 10), randomString(i + 10), randomString(i + 10), randomString(i + 10),
                     randomString(i + 10), randomString(i + 10), randomString(i + 10), randomString(i + 10),
-                    randomString(i + 10), randomString(i + 10), randomString(i + 10), randomString(i + 10)));
+                    randomString(i + 10), randomString(i + 10), randomString(i + 10), randomString(i + 10), randomString(i + 10)));
         }
         return result;
     }
@@ -40,9 +41,32 @@ public class ContactCreationTests extends TestBase {
     @ParameterizedTest
     @MethodSource("contactProvider")
     public void canCreateMultipleContact(ContactData contact) {
-        int contactCount = app.contact().getCount();
+        var oldContacts = app.contacts().getList();
         app.contact().createContact(contact);
-        int newContactCount = app.contact().getCount();
-        Assertions.assertEquals(contactCount + 1, newContactCount);
+        var newContacts = app.contacts().getList();
+        Comparator<ContactData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+        newContacts.sort(compareById);
+        ArrayList<ContactData> expectedList = new ArrayList<>(oldContacts);
+        expectedList.add(contact
+                .withId(newContacts.get(newContacts.size() - 1).id())
+                .withFirstName("")
+                .withMiddleName("")
+                .withNickName("")
+                .withTitle("")
+                .withCompany("")
+                .withAddress("")
+                .withHome("")
+                .withMobile("")
+                .withWork("")
+                .withFax("")
+                .withEmail("")
+                .withEmail2("")
+                .withEmail3("")
+                .withHomePage("")
+        );
+        expectedList.sort(compareById);
+        Assertions.assertEquals(newContacts, expectedList);
     }
 }

@@ -6,46 +6,60 @@ import org.junit.jupiter.params.provider.MethodSource;
 import ru.stqa.addressbook.model.GroupData;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-public class GroupCreationTests extends TestBase{
+public class GroupCreationTests extends TestBase {
 
     public static List<GroupData> groupProvider() {
         var result = new ArrayList<GroupData>();
         for (var name : List.of("", "group name")) {
             for (var header : List.of("", "group header")) {
                 for (var footer : List.of("", "gropr footer")) {
-                    result.add(new GroupData(name, header, footer));
+                    result.add(new GroupData()
+                            .withName(name)
+                            .whithHeader(header)
+                            .whithFooter(footer));
                 }
             }
         }
-        for (int i =0; i < 5; i++) {
-            result.add(new GroupData(randomString(i + 10), randomString(i + 10), randomString(i + 10)));
+        for (int i = 0; i < 5; i++) {
+            result.add(new GroupData()
+                    .withName(randomString(i + 10))
+                    .whithHeader(randomString(i + 10))
+                    .whithFooter(randomString(i + 10)));
         }
         return result;
     }
 
     public static List<GroupData> negativeGroupProvider() {
         var result = new ArrayList<GroupData>(List.of(
-                new GroupData("group name'", "", "")));
+                new GroupData("", "group name'", "", "")));
         return result;
     }
 
     @ParameterizedTest
     @MethodSource("groupProvider")
     public void canCreateMultipleGroups(GroupData group) {
-        int groupCount = app.groups().getCount();
+        var oldGroups = app.groups().getList();
         app.groups().createGroup(group);
-        int newGroupCount = app.groups().getCount();
-        Assertions.assertEquals(groupCount + 1, newGroupCount );
+        var newGroups = app.groups().getList();
+        Comparator<GroupData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+        newGroups.sort(compareById);
+        ArrayList<GroupData> expectedList = new ArrayList<>(oldGroups);
+        expectedList.add(group.withId(newGroups.get(newGroups.size() - 1).id()).whithHeader("").whithFooter(""));
+        expectedList.sort(compareById);
+        Assertions.assertEquals(newGroups, expectedList);
     }
 
     @ParameterizedTest
     @MethodSource("negativeGroupProvider")
     public void canNotCreateGroups(GroupData group) {
-        int groupCount = app.groups().getCount();
+        var oldGroups = app.groups().getList();
         app.groups().createGroup(group);
-        int newGroupCount = app.groups().getCount();
-        Assertions.assertEquals(groupCount, newGroupCount );
+        var newGroups = app.groups().getList();
+        Assertions.assertEquals(oldGroups, newGroups);
     }
 }

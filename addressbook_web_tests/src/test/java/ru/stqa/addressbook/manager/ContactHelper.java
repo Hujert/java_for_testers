@@ -2,6 +2,10 @@ package ru.stqa.addressbook.manager;
 
 import org.openqa.selenium.By;
 import ru.stqa.addressbook.model.ContactData;
+import ru.stqa.addressbook.model.GroupData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends HelperBase {
 
@@ -23,9 +27,9 @@ public class ContactHelper extends HelperBase {
         }
     }
 
-    public void removeContact() {
+    public void removeContact(ContactData contact) {
         openHomePage();
-        selectContact();
+        selectContact(contact);
         removeSelectedContact();
         returnToHomePage();
     }
@@ -101,8 +105,8 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("//img[@title='Edit']"));
     }
 
-    private void selectContact() {
-        click(By.xpath("//input[@name='selected[]']"));
+    private void selectContact(ContactData contact) {
+        click(By.cssSelector(String.format("input[value='%s']", contact.id())));
     }
 
     private void selectAllContact() {
@@ -111,6 +115,20 @@ public class ContactHelper extends HelperBase {
 
     public int getCount() {
         openHomePage();
-        return manager.driver.findElements(By.xpath("//input[@name='selected[]']")).size();
+        return manager.driver.findElements(By.name("selected[]")).size();
+    }
+
+    public List<ContactData> getList() {
+        openHomePage();
+        var contacts = new ArrayList<ContactData>();
+        var trs = manager.driver.findElements(By.name("entry"));
+        for (var tr : trs) {
+            var name = tr.findElement(By.cssSelector("td:nth-child(2)")).getText();
+            var checkbox = tr.findElement(By.name("selected[]"));
+            var id = checkbox.getAttribute("id");
+            contacts.add(new ContactData().withId(id).withLastName(name));
+
+        }
+        return contacts;
     }
 }
