@@ -51,7 +51,6 @@ public class ContactCreationTests extends TestBase {
         ArrayList<ContactData> expectedList = new ArrayList<>(oldContacts);
         expectedList.add(contact
                 .withId(newContacts.get(newContacts.size() - 1).id())
-                .withFirstName("")
                 .withMiddleName("")
                 .withNickName("")
                 .withTitle("")
