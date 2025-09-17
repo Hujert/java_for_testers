@@ -2,7 +2,6 @@ package ru.stqa.addressbook.manager;
 
 import org.openqa.selenium.By;
 import ru.stqa.addressbook.model.ContactData;
-import ru.stqa.addressbook.model.GroupData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,9 +48,9 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
-    public void modifyContact(ContactData modifiedContact) {
+    public void modifyContact(ContactData contact, ContactData modifiedContact) {
         openHomePage();
-        initContactModification();
+        initContactModification(contact);
         fillContactForm(modifiedContact);
         submitContactModification();
         returnToHomePage();
@@ -101,8 +100,8 @@ public class ContactHelper extends HelperBase {
         type(By.name("homepage"), contact.homepage());
     }
 
-    private void initContactModification() {
-        click(By.xpath("//img[@title='Edit']"));
+    private void initContactModification(ContactData contact) {
+        click(By.cssSelector(String.format("tr:has(input[value='%s']) img[title='Edit']", contact.id())));
     }
 
     private void selectContact(ContactData contact) {
