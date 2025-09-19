@@ -98,6 +98,11 @@ public class ContactHelper extends HelperBase {
         type(By.name("email2"), contact.email2());
         type(By.name("email3"), contact.email3());
         type(By.name("homepage"), contact.homepage());
+        if (contact.photo() != null) {
+            attach(By.name("photo"), contact.photo());
+        } else {
+        }
+
     }
 
     private void initContactModification(ContactData contact) {
