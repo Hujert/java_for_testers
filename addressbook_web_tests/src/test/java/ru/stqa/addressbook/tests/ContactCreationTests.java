@@ -1,40 +1,35 @@
 package ru.stqa.addressbook.tests;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.stqa.addressbook.model.ContactData;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class ContactCreationTests extends TestBase {
 
-    public static List<ContactData> contactProvider() {
+    public static List<ContactData> contactProvider() throws IOException {
         var result = new ArrayList<ContactData>();
         for (var firstName : List.of("", "contact firstName")) {
             for (var lastName : List.of("", "contact lastName")) {
-                for (var address : List.of("", "contact address")) {
-                    for (var mobile : List.of("", "contact mobile")) {
-                        for (var email : List.of("", "contact email")) {
+                        for (var photo : List.of("src/test/resources/images/avatar.png")) {
                             result.add(new ContactData()
                                     .withFirstName(firstName)
                                     .withLastName(lastName)
-                                    .withAddress(address)
-                                    .withMobile(mobile)
-                                    .withEmail(email));
-                        }
-                    }
+                                    .withPhoto(photo));
                 }
             }
         }
-        for (int i = 0; i < 5; i++) {
-            result.add(new ContactData(randomString(i + 10), randomString(i + 10), randomString(i + 10),
-                    randomString(i + 10), randomString(i + 10), randomString(i + 10), randomString(i + 10),
-                    randomString(i + 10), randomString(i + 10), randomString(i + 10), randomString(i + 10),
-                    randomString(i + 10), randomString(i + 10), randomString(i + 10), randomString(i + 10), randomString(i + 10)));
-        }
+        var mapper = new XmlMapper();
+        var value = mapper.readValue(new File("contacts.xml"), new TypeReference<List<ContactData>>() {});
+        result.addAll(value);
         return result;
     }
 
@@ -64,6 +59,7 @@ public class ContactCreationTests extends TestBase {
                 .withEmail2("")
                 .withEmail3("")
                 .withHomePage("")
+                .withPhoto("")
         );
         expectedList.sort(compareById);
         Assertions.assertEquals(newContacts, expectedList);
