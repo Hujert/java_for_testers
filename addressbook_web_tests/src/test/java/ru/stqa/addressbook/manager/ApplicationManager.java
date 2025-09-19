@@ -7,11 +7,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.Properties;
+
 public class ApplicationManager {
     protected static WebDriver driver;
     private LoginHelper session;
     private GroupHelper groups;
     private ContactHelper contact;
+
+    private Properties properties;
 
     public boolean isElementPresent(By locator) {
         try {
@@ -43,19 +47,20 @@ public class ApplicationManager {
         return groups;
     }
 
-    public void init(String browser) {
+    public void init(Properties properties) {
         if (driver == null) {
-            if ("firefox".equals(browser)) {
+            this.properties = properties;
+            if ("firefox".equals(properties.getProperty("browser.default"))) {
                 driver = new FirefoxDriver();
-            } else if ("chrome".equals(browser)) {
+            } else if ("chrome".equals(properties.getProperty("browser.default"))) {
                 driver = new ChromeDriver();
             } else {
-                throw new IllegalArgumentException(String.format("Unknown browser %s", browser));
+                throw new IllegalArgumentException(String.format("Unknown browser %s", properties.getProperty("browser.default")));
             }
             Runtime.getRuntime().addShutdownHook(new Thread(driver::quit));
-            driver.get("http://localhost/addressbook/index.php");
+            driver.get(properties.getProperty("web.baseUrl"));
             driver.manage().window().setSize(new Dimension(1389, 693));
-            session().login("admin", "secret");
+            session().login(properties.getProperty("web.username"), properties.getProperty("web.password"));
         }
     }
 
