@@ -6,6 +6,8 @@ import ru.stqa.addressbook.model.GroupData;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ru.stqa.addressbook.manager.ApplicationManager.driver;
+
 public class GroupHelper extends HelperBase {
 
     public GroupHelper(ApplicationManager manager) {
@@ -16,6 +18,7 @@ public class GroupHelper extends HelperBase {
         if (!manager.isElementPresent(By.name("new"))) {
             click(By.xpath("//a[contains(text(),'groups')]"));
         }
+        driver.navigate().refresh();
     }
 
     public void removeGroup(GroupData group) {
@@ -72,7 +75,7 @@ public class GroupHelper extends HelperBase {
 
     private void fillGroupForm(GroupData group) {
         type(By.xpath("//input[@name='group_name']"), group.name());
-        type(By.xpath("//textarea[@name='group_header']"), group.heder());
+        type(By.xpath("//textarea[@name='group_header']"), group.header());
         type(By.xpath("//textarea[@name='group_footer']"), group.footer());
 
     }
@@ -87,11 +90,11 @@ public class GroupHelper extends HelperBase {
 
     public int getCount() {
         openGroupsPage();
-        return manager.driver.findElements(By.xpath("//input[@name='selected[]']")).size();
+        return driver.findElements(By.xpath("//input[@name='selected[]']")).size();
     }
 
     private void selectAllGroups() {
-        var checkboxes = manager.driver.findElements(By.xpath("//input[@name='selected[]']"));
+        var checkboxes = driver.findElements(By.xpath("//input[@name='selected[]']"));
         for (var checkbox : checkboxes) {
             checkbox.click();
         }
@@ -100,7 +103,7 @@ public class GroupHelper extends HelperBase {
     public List<GroupData> getList() {
         openGroupsPage();
         var groups = new ArrayList<GroupData>();
-        var spans = manager.driver.findElements(By.cssSelector("span.group"));
+        var spans = driver.findElements(By.cssSelector("span.group"));
         for (var span : spans) {
             var name = span.getText();
             var checkbox = span.findElement(By.name("selected[]"));
