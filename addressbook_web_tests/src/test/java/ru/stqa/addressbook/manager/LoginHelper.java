@@ -1,6 +1,8 @@
 package ru.stqa.addressbook.manager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class LoginHelper extends HelperBase{
 
@@ -9,8 +11,11 @@ public class LoginHelper extends HelperBase{
     }
 
     void login(String user, String password) {
-        type(By.xpath("//input[@name='user']"), user);
-        type(By.xpath("//input[@name='pass']"), password);
-        click(By.xpath("//input[@value='Login']"));
+        WebElement userField = wait.until(
+                ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='user']"))
+        );
+            type(By.xpath("//input[@name='user']"), user);
+            type(By.xpath("//input[@name='pass']"), password);
+            click(By.xpath("//input[@value='Login']"));
     }
 }
