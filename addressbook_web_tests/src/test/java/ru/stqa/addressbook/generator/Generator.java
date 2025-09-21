@@ -57,22 +57,25 @@ public class Generator {
 
     private Object generateContacts() {
         var result = new ArrayList<ContactData>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < count; i++) {
             result.add(new ContactData()
                     .withFirstName(CommonFunctions.randomString(i + 10))
                     .withLastName(CommonFunctions.randomString(i + 10))
-                    .withPhoto(Generator.randomFile("src/test/resources/images")));
+                    .withMiddleName(CommonFunctions.randomString(i + 10))
+                    .withAddress(CommonFunctions.randomString(i + 10))
+                    .withTitle(CommonFunctions.randomString(i + 10)));
+//                    .withPhoto(Generator.randomFile("src/test/resources/images")));
         }
         return result;
     }
 
     private Object generateGroups() {
         var result = new ArrayList<GroupData>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < count; i++) {
             result.add(new GroupData()
                     .withName(CommonFunctions.randomString(i + 10))
-                    .whithHeader(CommonFunctions.randomString(i + 10))
-                    .whithFooter(CommonFunctions.randomString(i + 10)));
+                    .withHeader(CommonFunctions.randomString(i + 10))  // ИСПРАВЛЕНО
+                    .withFooter(CommonFunctions.randomString(i + 10))); // ИСПРАВЛЕНО
         }
         return result;
     }
