@@ -3,7 +3,6 @@ package ru.stqa.addressbook.tests;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.stqa.addressbook.model.ContactData;
-import ru.stqa.addressbook.model.GroupData;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -13,15 +12,15 @@ public class ContactModificationTests extends TestBase{
 
     @Test
     void canModifyContact() {
-        if (!app.contact().isContactPresent()) {
-            app.contact().createContact(new ContactData("", "firstName", "middleName", "lastName", "nickName", "title", "company", "address", "home", "mobile", "work", "fax", "email", "email2", "email3", "homepage"));
+        if (app.hbm().getContactCount() == 0) {
+            app.hbm().createContact(new ContactData("", "firstName", "middleName", "lastName", "nickName", "title", "company", "address", "home", "mobile", "work", "fax", "email", "email2", "email3", "homepage", ""));
         }
-        var oldContacts = app.contacts().getList();
+        var oldContacts = app.hbm().getContactList();
         var rnd = new Random();
         var index = rnd.nextInt(oldContacts.size());
         var updateData = new ContactData().withFirstName("modify firstName").withLastName("modify lastName");
         app.contacts().modifyContact(oldContacts.get(index), updateData);
-        var newContacts = app.contacts().getList();
+        var newContacts = app.hbm().getContactList();
         var expectedList = new ArrayList<>(oldContacts);
         expectedList.set(index, updateData.withId(oldContacts.get(index).id()));
         Comparator<ContactData> compareById = (o1, o2) -> {
@@ -29,6 +28,6 @@ public class ContactModificationTests extends TestBase{
         };
         newContacts.sort(compareById);
         expectedList.sort(compareById);
-        Assertions.assertEquals(newContacts, expectedList);
+        Assertions.assertEquals(expectedList, newContacts);
     }
 }

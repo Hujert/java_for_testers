@@ -5,6 +5,8 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import ru.stqa.addressbook.common.CommonFunctions;
+import ru.stqa.addressbook.model.ContactData;
 import ru.stqa.addressbook.model.GroupData;
 
 import java.io.File;
@@ -19,8 +21,8 @@ public class GroupCreationTests extends TestBase {
         var result = new ArrayList<GroupData>();
         for (var name : List.of("", "group name")) {
             for (var header : List.of("", "group header")) {
-                for (var footer : List.of("", "gropr footer")) {
-                    result.add(new GroupData().withName(name).whithHeader(header).whithFooter(footer));
+                for (var footer : List.of("", "group footer")) {
+                    result.add(new GroupData().withName(name).withHeader(header).withFooter(footer));
                 }
             }
         }
@@ -29,6 +31,13 @@ public class GroupCreationTests extends TestBase {
         });
         result.addAll(value);
         return result;
+    }
+
+    public static List<GroupData> singleRandomGroup() throws IOException {
+       return List.of(new GroupData()
+                .withName(CommonFunctions.randomString(10))
+                .withHeader(CommonFunctions.randomString(20))
+                .withFooter(CommonFunctions.randomString(30)));
     }
 
     public static List<GroupData> negativeGroupProvider() {
@@ -40,15 +49,32 @@ public class GroupCreationTests extends TestBase {
     @ParameterizedTest
     @MethodSource("groupProvider")
     public void canCreateMultipleGroups(GroupData group) {
-        var oldGroups = app.groups().getList();
+        var oldGroups = app.hbm().getGroupList();
         app.groups().createGroup(group);
-        var newGroups = app.groups().getList();
+        var newGroups = app.hbm().getGroupList();
         Comparator<GroupData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
         newGroups.sort(compareById);
         ArrayList<GroupData> expectedList = new ArrayList<>(oldGroups);
-        expectedList.add(group.withId(newGroups.get(newGroups.size() - 1).id()).whithHeader("").whithFooter(""));
+        expectedList.add(group.withId(newGroups.get(newGroups.size() - 1).id()));
+        expectedList.sort(compareById);
+        Assertions.assertEquals(expectedList, newGroups);
+    }
+
+    @ParameterizedTest
+    @MethodSource("singleRandomGroup")
+    public void canCreateGroup(GroupData group) {
+        var oldGroups = app.hbm().getGroupList();
+        app.groups().createGroup(group);
+        var newGroups = app.hbm().getGroupList();
+        Comparator<GroupData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+        newGroups.sort(compareById);
+        var maxId = newGroups.get(newGroups.size() - 1).id();
+        var expectedList = new ArrayList<>(oldGroups);
+        expectedList.add(group.withId(maxId));
         expectedList.sort(compareById);
         Assertions.assertEquals(newGroups, expectedList);
     }
@@ -56,9 +82,9 @@ public class GroupCreationTests extends TestBase {
     @ParameterizedTest
     @MethodSource("negativeGroupProvider")
     public void canNotCreateGroups(GroupData group) {
-        var oldGroups = app.groups().getList();
+        var oldGroups = app.hbm().getGroupList();
         app.groups().createGroup(group);
-        var newGroups = app.groups().getList();
+        var newGroups = app.hbm().getGroupList();
         Assertions.assertEquals(oldGroups, newGroups);
     }
 }
