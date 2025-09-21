@@ -63,8 +63,19 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
+    public void removeContactFromGroup(ContactData contact, GroupData group) {
+        openHomePage();
+        selectGroupInContact(group);
+        selectContact(contact);
+        removeGropeSelectedContact();
+        returnToPage();
+    }
+
     private void selectGroup(GroupData group) {
         new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
+    }
+    private void selectGroupInContact(GroupData group) {
+        new Select(manager.driver.findElement(By.name("group"))).selectByValue(group.id());
     }
 
     public void modifyContact(ContactData contact, ContactData modifiedContact) {
@@ -77,6 +88,10 @@ public class ContactHelper extends HelperBase {
 
     private void removeSelectedContact() {
         click(By.xpath("//input[@name='delete']"));
+    }
+
+    private void removeGropeSelectedContact() {
+        click(By.name("remove"));
     }
 
     public boolean isContactPresent() {
@@ -96,6 +111,12 @@ public class ContactHelper extends HelperBase {
         wait.until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//a[contains(text(),'home page')]")));
         click(By.xpath("//a[contains(text(),'home page')]"));
+    }
+
+    private void returnToPage() {
+        wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'group page')]")));
+        click(By.xpath("//a[contains(text(),'group page')]"));
     }
 
     private void submitContactModification() {
