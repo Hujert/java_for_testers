@@ -1,12 +1,15 @@
 package ru.stqa.addressbook.manager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.stqa.addressbook.model.GroupData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static org.hibernate.internal.util.collections.ArrayHelper.forEach;
 import static ru.stqa.addressbook.manager.ApplicationManager.driver;
 
 public class GroupHelper extends HelperBase {
@@ -97,23 +100,21 @@ public class GroupHelper extends HelperBase {
     }
 
     private void selectAllGroups() {
-        var checkboxes = driver.findElements(By.xpath("//input[@name='selected[]']"));
-        for (var checkbox : checkboxes) {
-            checkbox.click();
-        }
+        manager.driver.findElements(By.xpath("//input[@name='selected[]']"))
+                .forEach(WebElement::click);
     }
 
     public List<GroupData> getList() {
         openGroupsPage();
-        var groups = new ArrayList<GroupData>();
         var spans = driver.findElements(By.cssSelector("span.group"));
-        for (var span : spans) {
-            var name = span.getText();
-            var checkbox = span.findElement(By.name("selected[]"));
-            var id = checkbox.getAttribute("value");
-            groups.add(new GroupData().withId(id).withName(name));
+        return spans.stream()
+                .map(span -> {
+                    var name = span.getText();
+                    var checkbox = span.findElement(By.name("selected[]"));
+                    var id = checkbox.getAttribute("value");
+                    return new GroupData().withId(id).withName(name);
+                })
+                .collect(Collectors.toList());
 
-        }
-        return groups;
     }
 }
