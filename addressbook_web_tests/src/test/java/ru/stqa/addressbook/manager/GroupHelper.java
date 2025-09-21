@@ -1,6 +1,7 @@
 package ru.stqa.addressbook.manager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import ru.stqa.addressbook.model.GroupData;
 
 import java.util.ArrayList;
@@ -65,6 +66,8 @@ public class GroupHelper extends HelperBase {
     }
 
     private void returnToGroupsPage() {
+        wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'group page')]")));
         click(By.xpath("//a[contains(text(),'group page')]"));
     }
 

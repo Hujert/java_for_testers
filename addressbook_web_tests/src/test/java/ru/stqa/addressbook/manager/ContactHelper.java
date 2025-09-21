@@ -1,10 +1,15 @@
 package ru.stqa.addressbook.manager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import ru.stqa.addressbook.model.ContactData;
+import ru.stqa.addressbook.model.GroupData;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static ru.stqa.addressbook.manager.ApplicationManager.driver;
 
 public class ContactHelper extends HelperBase {
 
@@ -24,6 +29,7 @@ public class ContactHelper extends HelperBase {
                 By.xpath("//input[@value='Send e-Mail']"))) {
             click(By.linkText("home"));
         }
+        driver.navigate().refresh();
     }
 
     public void removeContact(ContactData contact) {
@@ -46,6 +52,19 @@ public class ContactHelper extends HelperBase {
         fillContactForm(contact);
         submitContactCreation();
         returnToHomePage();
+    }
+
+    public void createContact(ContactData contact, GroupData group) {
+        openContactsPage();
+        initContactCreation();
+        fillContactForm(contact);
+        selectGroup(group);
+        submitContactCreation();
+        returnToHomePage();
+    }
+
+    private void selectGroup(GroupData group) {
+        new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
     }
 
     public void modifyContact(ContactData contact, ContactData modifiedContact) {
@@ -74,6 +93,8 @@ public class ContactHelper extends HelperBase {
     }
 
     private void returnToHomePage() {
+        wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(),'home page')]")));
         click(By.xpath("//a[contains(text(),'home page')]"));
     }
 
@@ -86,7 +107,7 @@ public class ContactHelper extends HelperBase {
         type(By.name("firstname"), contact.firstName());
         type(By.name("middlename"), contact.middleName());
         type(By.name("lastname"), contact.lastName());
-        type(By.name("nickname"), contact.lastName());
+        type(By.name("nickname"), contact.nickName());
         type(By.name("title"), contact.title());
         type(By.name("company"), contact.company());
         type(By.name("address"), contact.address());
@@ -98,11 +119,9 @@ public class ContactHelper extends HelperBase {
         type(By.name("email2"), contact.email2());
         type(By.name("email3"), contact.email3());
         type(By.name("homepage"), contact.homepage());
-        if (contact.photo() != null) {
-            attach(By.name("photo"), contact.photo());
-        } else {
-        }
-
+//        if (contact.photo() != null && !contact.photo().isEmpty()) {
+//            attach(By.name("photo"), contact.photo());
+//        }
     }
 
     private void initContactModification(ContactData contact) {

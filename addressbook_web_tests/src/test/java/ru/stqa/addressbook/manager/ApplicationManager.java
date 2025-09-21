@@ -13,9 +13,12 @@ public class ApplicationManager {
     protected static WebDriver driver;
     private LoginHelper session;
     private GroupHelper groups;
-    private ContactHelper contact;
+    private ContactHelper contacts;
+    private JdbcHelper jdbc;
+    private HibernateHelper hbm;
 
     private Properties properties;
+    private JdbcHelper jdbcHelper;
 
     public boolean isElementPresent(By locator) {
         try {
@@ -34,10 +37,10 @@ public class ApplicationManager {
     }
 
     public ContactHelper contacts() {
-        if (contact == null) {
-            contact = new ContactHelper(this);
+        if (contacts == null) {
+            contacts = new ContactHelper(this);
         }
-        return contact;
+        return contacts;
     }
 
     public GroupHelper groups() {
@@ -45,6 +48,20 @@ public class ApplicationManager {
             groups = new GroupHelper(this);
         }
         return groups;
+    }
+
+    public JdbcHelper jdbc() {
+        if (jdbc == null) {
+            jdbc = new JdbcHelper(this);
+        }
+        return jdbc;
+    }
+
+    public HibernateHelper hbm() {
+        if (hbm == null) {
+            hbm = new HibernateHelper(this);
+        }
+        return hbm;
     }
 
     public void init(Properties properties) {
@@ -63,12 +80,4 @@ public class ApplicationManager {
             session().login(properties.getProperty("web.username"), properties.getProperty("web.password"));
         }
     }
-
-    public ContactHelper contact() {
-        if (contact == null) {
-            contact = new ContactHelper(this);
-        }
-        return contact;
-    }
-
 }
