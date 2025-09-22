@@ -71,5 +71,32 @@ public class ContactInfoTests extends TestBase {
                 () -> assertEquals(expectedEmail, emails, "Emails не соответствует ожидаемому"));
     }
 
+    @Test
+    void testAllContactPhonesAddressesEmails() {
+        var contacts = app.hbm().getContactList();
+        var expectedEmail = contacts.stream().collect(Collectors.toMap(ContactData::id, contact ->
+                Stream.of(contact.email(), contact.email2(), contact.email3())
+                        .filter(s -> s != null & !"".equals(s))
+                        .collect(Collectors.joining("\n"))));
+        var emails = app.contacts().getEmails();
+
+        var expectedAddress = contacts.stream().collect(Collectors.toMap(ContactData::id, contact ->
+                Stream.of(contact.address())
+                        .filter(s -> s != null & !"".equals(s))
+                        .collect(Collectors.joining("\n"))));
+        var addresses = app.contacts().getAddresses();
+
+        var expectedPhones = contacts.stream().collect(Collectors.toMap(ContactData::id, contact ->
+                Stream.of(contact.home(), contact.mobile(), contact.work(), contact.secondary())
+                        .filter(s -> s != null & !"".equals(s))
+                        .collect(Collectors.joining("\n"))));
+        var phones = app.contacts().getPhones();
+
+        Assertions.assertAll("Проверяем соответствие записей phones, addresses, emails",
+                () -> assertEquals(expectedPhones, phones, "Phones не соответствует ожидаемому"),
+                () -> assertEquals(expectedAddress, addresses, "Addresses не соответствует ожидаемому"),
+                () -> assertEquals(expectedEmail, emails, "Emails не соответствует ожидаемому"));
+    }
+
 
 }
