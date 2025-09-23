@@ -107,6 +107,16 @@ public class HibernateHelper extends HelperBase {
 
     public List<ContactData> getContactsInGroup(GroupData group) {
         return sessionFactory.fromSession(session -> {
-            return convertContactList(session.get(GroupRecord.class, group.id()).contacts);});
+            return convertContactList(session.get(GroupRecord.class, group.id()).contacts);
+        });
+    }
+
+    public Long getContactsCountInAnyGroup() {
+        return sessionFactory.fromSession(session -> {
+            String hql = "SELECT COUNT(DISTINCT c.id) FROM GroupRecord g " +
+                    "JOIN g.contacts c";
+            return session.createQuery(hql, Long.class).getSingleResult();
+        });
     }
 }
+

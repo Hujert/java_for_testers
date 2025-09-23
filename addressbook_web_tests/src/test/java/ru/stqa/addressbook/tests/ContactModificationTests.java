@@ -69,7 +69,7 @@ public class ContactModificationTests extends TestBase {
 
     @Test
     public void testAddContactToGroup() {
-        if (app.hbm().getContactCount() == 0) {
+        if (app.hbm().getContactCount() == app.hbm().getContactsCountInAnyGroup()) {
             app.hbm().createContact(new ContactData()
                     .withMiddleName(CommonFunctions.randomString(10))
                     .withFirstName(CommonFunctions.randomString(10))
