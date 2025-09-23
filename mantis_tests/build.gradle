@@ -12,7 +12,7 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    implementation 'org.seleniumhq.selenium:selenium-java:4.34.0'
+    implementation 'org.seleniumhq.selenium:selenium-java:4.35.0'
 }
 
 test {
