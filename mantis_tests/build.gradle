@@ -12,7 +12,10 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    implementation 'org.seleniumhq.selenium:selenium-java:4.35.0'
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.35.0'
+    testImplementation 'com.squareup.okhttp3:okhttp:4.11.0'
+    testImplementation 'com.squareup.okhttp3:okhttp-urlconnection:4.11.0'
+    testImplementation 'org.eclipse.angus:angus-mail:2.0.2'
 }
 
 test {
