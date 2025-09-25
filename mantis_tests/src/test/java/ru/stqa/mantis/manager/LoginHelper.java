@@ -20,5 +20,6 @@ public class LoginHelper extends HelperBase {
         type(By.xpath("//input[@name='password']"), password);
         type(By.xpath("//input[@name='password_confirm']"), password);
         click(By.xpath("//button[@type='submit']"));
+        isElementPresent(By.xpath("//h4[@class='header lighter bigger']"));
     }
 }
