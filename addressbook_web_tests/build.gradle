@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '2.11.2'
+
 }
 
 group = 'org.example'
@@ -7,6 +9,16 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+def allureVersion = '2.29.0'
+def aspectJVersion = '1.9.22'
+
+configurations {
+    agent {
+        canBeResolved = true
+        canBeConsumed = true
+    }
 }
 
 dependencies {
@@ -19,6 +31,19 @@ dependencies {
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.18.1'
     implementation 'com.mysql:mysql-connector-j:9.4.0'
     implementation 'org.hibernate.orm:hibernate-core:7.0.0.CR1'
+
+    agent "org.aspectj:aspectjweaver:$aspectJVersion"
+
+    testImplementation platform("io.qameta.allure:allure-bom:$allureVersion")
+    testImplementation "io.qameta.allure:allure-junit5"
+    testImplementation "io.qameta.allure:allure-commandline:$allureVersion"
+}
+
+allure {
+    version = allureVersion
+    useJUnit5 {
+        version = allureVersion
+    }
 }
 
 test {
@@ -28,5 +53,18 @@ test {
     }
     if (project.hasProperty("target")) {
         systemProperty("target", project.property("target"))
+    }
+    jvmArgs = [ "-javaagent:${configurations.agent.singleFile}" ]
+
+    ignoreFailures = true
+
+    // Для Allure
+    systemProperty 'allure.results.directory', 'build/allure-results'
+    outputs.upToDateWhen { false }
+
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+        showStandardStreams = true
     }
 }
