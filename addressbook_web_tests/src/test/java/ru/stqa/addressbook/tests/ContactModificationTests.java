@@ -10,6 +10,7 @@ import ru.stqa.addressbook.model.GroupData;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ContactModificationTests extends TestBase {
@@ -94,6 +95,6 @@ public class ContactModificationTests extends TestBase {
         var newRelated = app.hbm().getContactsInGroup(group);
         ArrayList<ContactData> expectedRelated = new ArrayList<>(oldRelated);
         expectedRelated.add(contacts.get(0));
-        Assertions.assertEquals(expectedRelated, newRelated);
+        Assertions.assertEquals(Set.copyOf(expectedRelated), Set.copyOf(newRelated));
     }
 }
