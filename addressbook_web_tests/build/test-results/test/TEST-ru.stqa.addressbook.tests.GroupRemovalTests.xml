@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.stqa.addressbook.tests.GroupRemovalTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-09-25T23:21:09.280Z" hostname="MacBook-Air-Anatolii-MAC.local" time="3.359">
+  <properties/>
+  <testcase name="canRemoveGroup()" classname="ru.stqa.addressbook.tests.GroupRemovalTests" time="3.359"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[сент. 25, 2025 4:21:10 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find an exact match for CDP version 140, returning the closest version; found: 139; Please update to a Selenium version that supports CDP version 140
+сент. 25, 2025 4:21:10 PM org.hibernate.jpa.internal.util.LogHelper logPersistenceUnitInformation
+INFO: HHH000204: Processing PersistenceUnitInfo [name: Addressbook]
+сент. 25, 2025 4:21:10 PM org.hibernate.Version logVersion
+INFO: HHH000412: Hibernate ORM core version 7.0.0.CR1
+сент. 25, 2025 4:21:11 PM org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl configure
+WARN: HHH10001002: Using built-in connection pool (not intended for production use)
+сент. 25, 2025 4:21:11 PM io.opentelemetry.api.GlobalOpenTelemetry maybeAutoConfigureAndSetGlobal
+INFO: AutoConfiguredOpenTelemetrySdk found on classpath but automatic configuration is disabled. To enable, run your JVM with -Dotel.java.global-autoconfigure.enabled=true
+сент. 25, 2025 4:21:11 PM org.hibernate.dialect.Dialect checkVersion
+WARN: HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+сент. 25, 2025 4:21:11 PM org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator logConnectionInfo
+INFO: HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost/addressbook?zeroDateTimeBehavior=convertToNull]
+	Database driver: com.mysql.cj.jdbc.Driver
+	Database version: 5.5.5
+	Autocommit mode: false
+	Isolation level: undefined/unknown
+	Pool: DriverManagerConnectionProviderImpl
+	Minimum pool size: 1
+	Maximum pool size: 20
+сент. 25, 2025 4:21:12 PM org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator initiateService
+INFO: HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+]]></system-err>
+</testsuite>
