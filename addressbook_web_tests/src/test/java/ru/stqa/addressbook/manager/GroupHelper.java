@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.manager;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -25,6 +26,7 @@ public class GroupHelper extends HelperBase {
         driver.navigate().refresh();
     }
 
+    @Step("Удаляет группу")
     public void removeGroup(GroupData group) {
         openGroupsPage();
         selectGroup(group);
@@ -32,6 +34,7 @@ public class GroupHelper extends HelperBase {
         returnToGroupsPage();
     }
 
+    @Step("Удаляет все группы")
     public void removeAllGroups() {
         openGroupsPage();
         selectAllGroups();
@@ -39,6 +42,7 @@ public class GroupHelper extends HelperBase {
         returnToGroupsPage();
     }
 
+    @Step("Создает группу")
     public void createGroup(GroupData group) {
         openGroupsPage();
         initGroupCreation();
@@ -47,6 +51,7 @@ public class GroupHelper extends HelperBase {
         returnToGroupsPage();
     }
 
+    @Step("Редактирует группу")
     public void modifyGroup(GroupData group, GroupData modifiedGroup) {
         openGroupsPage();
         selectGroup(group);

@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.manager;
 
+import io.qameta.allure.Step;
 import org.hibernate.SessionFactory;
 import org.hibernate.jpa.HibernatePersistenceConfiguration;
 import ru.stqa.addressbook.manager.hbm.ContactRecord;
@@ -63,32 +64,35 @@ public class HibernateHelper extends HelperBase {
         return new ContactRecord(Integer.parseInt(id), data.firstName(), data.lastName(), data.address());
     }
 
+    @Step("Возвращвет список групп")
     public List<GroupData> getGroupList() {
         return converGrouptList(sessionFactory.fromSession(session -> {
             return session.createQuery("from GroupRecord", GroupRecord.class).list();
         }));
     }
 
-
+    @Step("Возвращвет количество групп")
     public long getGroupCount() {
         return sessionFactory.fromSession(session -> {
             return session.createQuery("select count (*) from GroupRecord", Long.class).getSingleResult();
         });
     }
 
+    @Step("Возвращвет список контактов")
     public List<ContactData> getContactList() {
         return convertContactList(sessionFactory.fromSession(session -> {
             return session.createQuery("from ContactRecord", ContactRecord.class).list();
         }));
     }
 
-
+    @Step("Возвращвет количество контактов")
     public long getContactCount() {
         return sessionFactory.fromSession(session -> {
             return session.createQuery("select count (*) from ContactRecord", Long.class).getSingleResult();
         });
     }
 
+    @Step("Создает группу")
     public void createGroup(GroupData data) {
         sessionFactory.inSession(session -> {
             session.getTransaction().begin();
@@ -97,6 +101,7 @@ public class HibernateHelper extends HelperBase {
         });
     }
 
+    @Step("Создает контакт")
     public void createContact(ContactData data) {
         sessionFactory.inSession(session -> {
             session.getTransaction().begin();
@@ -105,12 +110,14 @@ public class HibernateHelper extends HelperBase {
         });
     }
 
+    @Step("Возвращает список контактов состоящих в конкретной группе")
     public List<ContactData> getContactsInGroup(GroupData group) {
         return sessionFactory.fromSession(session -> {
             return convertContactList(session.get(GroupRecord.class, group.id()).contacts);
         });
     }
 
+    @Step("Возвращает список контактов состоящих в хотя бы в одной группе")
     public Long getContactsCountInAnyGroup() {
         return sessionFactory.fromSession(session -> {
             String hql = "SELECT COUNT(DISTINCT c.id) FROM GroupRecord g " +

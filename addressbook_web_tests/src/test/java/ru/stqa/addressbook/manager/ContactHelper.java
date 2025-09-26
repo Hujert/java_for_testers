@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.manager;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -35,6 +36,7 @@ public class ContactHelper extends HelperBase {
         driver.navigate().refresh();
     }
 
+    @Step("Удаляет контакт")
     public void removeContact(ContactData contact) {
         openHomePage();
         selectContact(contact);
@@ -42,6 +44,7 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
+    @Step("Удаляет все контакты")
     public void removeAllContact() {
         openHomePage();
         selectAllContact();
@@ -49,6 +52,7 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
+    @Step("Создает контакт")
     public void createContact(ContactData contact) {
         openContactsPage();
         initContactCreation();
@@ -57,6 +61,7 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
+    @Step("Создает контакт с конкретной группой")
     public void createContact(ContactData contact, GroupData group) {
         openContactsPage();
         initContactCreation();
@@ -66,6 +71,7 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
+    @Step("Удаляет контакт из ргуппы")
     public void removeContactFromGroup(ContactData contact, GroupData group) {
         openHomePage();
         selectGroupInContact(group);
@@ -86,6 +92,7 @@ public class ContactHelper extends HelperBase {
         new Select(manager.driver.findElement(By.name("to_group"))).selectByValue(group.id());
     }
 
+    @Step("Редактирует контакт")
     public void modifyContact(ContactData contact, ContactData modifiedContact) {
         openHomePage();
         initContactModification(contact);
@@ -148,9 +155,6 @@ public class ContactHelper extends HelperBase {
         type(By.name("email2"), contact.email2());
         type(By.name("email3"), contact.email3());
         type(By.name("homepage"), contact.homepage());
-//        if (contact.photo() != null && !contact.photo().isEmpty()) {
-//            attach(By.name("photo"), contact.photo());
-//        }
     }
 
     private void initContactModification(ContactData contact) {
@@ -235,6 +239,7 @@ public class ContactHelper extends HelperBase {
         return result;
     }
 
+    @Step("Добавляет контакт в группу")
     public void addContactToGroup(ContactData contact, GroupData group) {
         openHomePage();
         selectToGroup(group);

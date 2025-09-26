@@ -1,5 +1,7 @@
 package ru.stqa.addressbook.tests;
 
+import io.qameta.allure.Description;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import ru.stqa.addressbook.manager.ApplicationManager;
 
@@ -12,6 +14,7 @@ public class TestBase {
     protected static ApplicationManager app;
 
     @BeforeEach
+    @Description("Выполняется перед каждым тестом")
     public void setUp() throws IOException {
         Properties properties = null;
         if (app == null) {
@@ -20,6 +23,13 @@ public class TestBase {
             app = new ApplicationManager();
         }
         app.init(properties);
+    }
+
+    @AfterEach
+    @Description("Выполняется после каждого теста")
+    void chackDatabaseConsistency() {
+        app.jdbc().checkConsistency();
+
     }
 
 }
