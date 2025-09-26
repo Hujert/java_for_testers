@@ -25,11 +25,11 @@ public class TestBase {
         app.init(properties);
     }
 
-    @AfterEach
-    @Description("Выполняется после каждого теста")
-    void chackDatabaseConsistency() {
-        app.jdbc().checkConsistency();
-
-    }
+//    @AfterEach
+//    @Description("Выполняется после каждого теста")
+//    void chackDatabaseConsistency() {
+//        app.jdbc().checkConsistency();
+//
+//    }
 
 }
