@@ -2,6 +2,7 @@ package ru.stqa.addressbook.tests;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import io.qameta.allure.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,8 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
-import static ru.stqa.addressbook.generator.Generator.randomFile;
 
 public class ContactCreationTests extends TestBase {
 
@@ -41,6 +40,7 @@ public class ContactCreationTests extends TestBase {
 
     @ParameterizedTest
     @MethodSource("contactProvider")
+    @Description("Тест создает несколько контактов")
     public void canCreateMultipleContact(ContactData contact) {
         var oldContacts = app.hbm().getContactList();
         app.contacts().createContact(contact);
@@ -56,6 +56,7 @@ public class ContactCreationTests extends TestBase {
     }
 
     @Test
+    @Description("Тест создает контакт и устанавливает ему группу")
     public void canCreateContactInGroup() {
         var contact = new ContactData()
                 .withMiddleName(CommonFunctions.randomString(10))

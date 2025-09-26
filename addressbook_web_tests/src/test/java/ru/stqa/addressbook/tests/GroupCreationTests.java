@@ -2,6 +2,7 @@ package ru.stqa.addressbook.tests;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import io.qameta.allure.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -53,6 +54,7 @@ public class GroupCreationTests extends TestBase {
 
     @ParameterizedTest
     @MethodSource("groupProvider")
+    @Description("Тест проверяет функционал создания нескольких групп")
     public void canCreateMultipleGroups(GroupData group) {
         var oldGroups = app.hbm().getGroupList();
         app.groups().createGroup(group);
@@ -69,6 +71,7 @@ public class GroupCreationTests extends TestBase {
 
     @ParameterizedTest
     @MethodSource("randomGroups")
+    @Description("Тест проверяет функционал создания одной группы")
     public void canCreateGroup(GroupData group) {
         var oldGroups = app.hbm().getGroupList();
         app.groups().createGroup(group);
@@ -82,6 +85,7 @@ public class GroupCreationTests extends TestBase {
 
     @ParameterizedTest
     @MethodSource("negativeGroupProvider")
+    @Description("Тест проверяет функционал запрета создания группы с некорректными параметрами")
     public void canNotCreateGroups(GroupData group) {
         var oldGroups = app.hbm().getGroupList();
         app.groups().createGroup(group);

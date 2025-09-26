@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.tests;
 
+import io.qameta.allure.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.stqa.addressbook.common.CommonFunctions;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 public class ContactModificationTests extends TestBase {
 
     @Test
+    @Description("Тест проверяет возможность редактирования контакта")
     void canModifyContact() {
         if (app.hbm().getContactCount() == 0) {
             app.hbm().createContact(new ContactData()
@@ -40,6 +42,7 @@ public class ContactModificationTests extends TestBase {
     }
 
     @Test
+    @Description("Тест проверяет функционал удаления пользователя из группы")
     public void removeContactFromGroup() {
         var contact = new ContactData()
                 .withMiddleName(CommonFunctions.randomString(10))
@@ -68,6 +71,7 @@ public class ContactModificationTests extends TestBase {
     }
 
     @Test
+    @Description("Тест проверяет функционал добавления контакта в группу")
     public void testAddContactToGroup() {
         if (app.hbm().getContactCount() == app.hbm().getContactsCountInAnyGroup()) {
             app.hbm().createContact(new ContactData()

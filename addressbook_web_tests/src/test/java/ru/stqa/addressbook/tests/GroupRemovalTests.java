@@ -16,7 +16,7 @@ import java.util.Random;
 public class GroupRemovalTests extends TestBase{
 
     @Test
-    @Description("Тест удаляет группу")
+    @Description("Тест проверяет функционал удаления группы")
     public void canRemoveGroup() {
         if (app.hbm().getGroupCount() == 0) {
             app.hbm().createGroup(new GroupData("", "name", "name Heder", "name Footer"));
@@ -34,7 +34,7 @@ public class GroupRemovalTests extends TestBase{
     }
 
     @Test
-    @Generated("Тест удаляет все группы")
+    @Description("Тест проверяет функционал удаления всех групп")
     public void canRemoveAllGropes() {
         if (app.hbm().getGroupCount() == 0) {
             app.hbm().createGroup(new GroupData("", "name", "name Heder", "name Footer"));

@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.tests;
 
+import io.qameta.allure.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.stqa.addressbook.common.CommonFunctions;
@@ -13,6 +14,7 @@ import java.util.Set;
 public class GroupModificationTests extends TestBase{
 
     @Test
+    @Description("Тест проверяет функционал редактирования группы")
     void canModifyGroup() {
         if (app.hbm().getGroupCount() == 0) {
             app.hbm().createGroup(new GroupData("", "name", "name Heder", "name Footer"));

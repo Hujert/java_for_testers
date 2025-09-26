@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.tests;
 
+import io.qameta.allure.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.stqa.addressbook.common.CommonFunctions;
@@ -14,6 +15,7 @@ import java.util.Random;
 public class ContactRemovalTests extends TestBase{
 
     @Test
+    @Description("Тест проверяет функционал удаления контакта")
     public void canRemoveContact() {
         if (app.hbm().getContactCount() == 0) {
             app.hbm().createContact(new ContactData("", "firstName", "middleName", "lastName", "nickName", "title", "company", "address", "home", "mobile", "work", "fax", "email", "email2", "email3", "homepage", "", ""));
@@ -29,6 +31,7 @@ public class ContactRemovalTests extends TestBase{
     }
 
     @Test
+    @Description("Тест проверяет функционал удаления всех контактов")
     public void canRemoveAllContact() {
         if (app.hbm().getContactCount() == 0) {
             app.hbm().createContact(new ContactData("", "firstName", "middleName", "lastName", "nickName", "title", "company", "address", "home", "mobile", "work", "fax", "email", "email2", "email3", "homepage", "", ""));

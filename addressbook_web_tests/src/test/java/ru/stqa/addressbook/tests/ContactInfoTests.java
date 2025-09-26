@@ -1,5 +1,6 @@
 package ru.stqa.addressbook.tests;
 
+import io.qameta.allure.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.stqa.addressbook.model.ContactData;
@@ -12,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ContactInfoTests extends TestBase {
 
     @Test
+    @Description("Тест проверяет соответствие номеров телефона на странице списка пользователей и в DB")
     void testPhones() {
         var contacts = app.hbm().getContactList();
         var expected = contacts.stream().collect(Collectors.toMap(ContactData::id, contact ->
@@ -23,6 +25,7 @@ public class ContactInfoTests extends TestBase {
     }
 
     @Test
+    @Description("Тест проверяет соответствие адресов на странице списка пользователей и в DB")
     void testAddresses() {
         var contacts = app.hbm().getContactList();
         var expected = contacts.stream().collect(Collectors.toMap(ContactData::id, contact ->
@@ -34,6 +37,7 @@ public class ContactInfoTests extends TestBase {
     }
 
     @Test
+    @Description("Тест проверяет соответствие почты на странице списка пользователей и в DB")
     void testEmails() {
         var contacts = app.hbm().getContactList();
         var expected = contacts.stream().collect(Collectors.toMap(ContactData::id, contact ->
@@ -45,6 +49,7 @@ public class ContactInfoTests extends TestBase {
     }
 
     @Test
+    @Description("Комплексный тест проверяет соответствие телефонов, адресов и почты на странице списка у конкретного пользователя и в DB")
     void testFirstContactPhonesAddressesEmails() {
         var contact = app.hbm().getContactList().get(0);
         var expectedEmail = Stream.of(contact.email(), contact.email2(), contact.email3())
@@ -72,6 +77,7 @@ public class ContactInfoTests extends TestBase {
     }
 
     @Test
+    @Description("Комплексный тест проверяет соответствие телефонов, адресов и почты на странице списка пользователей и в DB")
     void testAllContactPhonesAddressesEmails() {
         var contacts = app.hbm().getContactList();
         var expectedEmail = contacts.stream().collect(Collectors.toMap(ContactData::id, contact ->
