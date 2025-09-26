@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'io.qameta.allure' version '2.11.2'
 
 }
 
@@ -36,14 +35,6 @@ dependencies {
 
     testImplementation platform("io.qameta.allure:allure-bom:$allureVersion")
     testImplementation "io.qameta.allure:allure-junit5"
-    testImplementation "io.qameta.allure:allure-commandline:$allureVersion"
-}
-
-allure {
-    version = allureVersion
-    useJUnit5 {
-        version = allureVersion
-    }
 }
 
 test {
@@ -55,16 +46,4 @@ test {
         systemProperty("target", project.property("target"))
     }
     jvmArgs = [ "-javaagent:${configurations.agent.singleFile}" ]
-
-    ignoreFailures = true
-
-    // Для Allure
-    systemProperty 'allure.results.directory', 'build/allure-results'
-    outputs.upToDateWhen { false }
-
-    testLogging {
-        events "passed", "skipped", "failed"
-        exceptionFormat "full"
-        showStandardStreams = true
-    }
 }
